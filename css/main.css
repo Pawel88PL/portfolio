@@ -1,0 +1,416 @@
+.item-1 {
+    grid-column: 1 / 13;
+    grid-row: 1 / 2;
+    align-self: center;
+    text-align: center;
+    position: fixed;
+    top: 0%;
+    width: 100%;
+    background-color: rgb(1, 0, 48);
+    box-shadow: 0px 0px 40px 1px rgba(202, 202, 202, 1);
+    margin: 0 auto;
+}
+
+div.item-1 nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+}
+
+div.item-1 nav li {
+    float: left;
+}
+
+div.item-1 nav ul li a{
+    display: block;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    text-transform: uppercase;
+    border-radius: 10px;
+    padding: 10px 10px;
+    margin: 10px 25px;    
+}
+
+div.item-1 nav ul li a:hover {
+    background-color: aliceblue;
+    color: black;
+    transition: 0.7s;
+}
+
+.item-2 {
+    grid-column: 1 / 13;
+    grid-row: 3 / 8;
+    font-size: 28px;
+    box-shadow: 0px 0px 40px 1px rgba(202, 202, 202, 1);
+    padding: 10% 40% 1% 5%;
+}
+
+.item-3 {
+    grid-column: 8 / 11;
+    grid-row: 4 / 8;
+}
+
+.item-4 {
+    grid-column: 1 / 13;
+    grid-row: 10 / 18;
+    font-size: 26px;
+    box-shadow: 0px 0px 40px 1px rgba(202, 202, 202, 1);
+    padding: 10% 40% 1% 5%;
+}
+
+.item-5 {
+    grid-column: 9 / 12;
+    grid-row: 12 / 16;
+    padding: 5px;
+}
+
+.item-6 {
+    grid-column: 1 / 13;
+    grid-row: 20 / 21;
+    font-size: 28px;
+    text-align: center;
+    box-shadow: 0px 0px 40px 1px rgba(202, 202, 202, 1);
+}
+
+.item-7 {
+    grid-column: 1 / 5;
+    grid-row: 22 / 26;
+    font-size: 24px;
+    text-align: center;
+    box-shadow: 0px 0px 40px 1px rgba(202, 202, 202, 1);
+}
+
+.item-8 {
+    grid-column: 5 / 9;
+    grid-row: 22 / 26;
+    font-size: 24px;
+    text-align: center;
+    box-shadow: 0px 0px 40px 1px rgba(202, 202, 202, 1);
+}
+
+.item-9 {
+    grid-column: 9 / 13;
+    grid-row: 22 / 26;
+    font-size: 24px;
+    text-align: center;
+    box-shadow: 0px 0px 40px 1px rgba(202, 202, 202, 1);
+}
+
+.item-10 {
+    grid-column: 1 / 13;
+    grid-row: 28 / 32;
+    font-size: 26px;
+    box-shadow: 0px 0px 40px 1px rgba(202, 202, 202, 1);
+    padding: 20px 40px;
+}
+
+.item-11 {
+    grid-column: 1 / 13;
+    grid-row: 32 / 33;
+    align-self: start;
+    text-align: center;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(33, 100px);
+    gap: 20px;
+    justify-content: center;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding: 0 20px;
+}
+[class*="item-"] {
+    border-radius: 10px;
+}
+
+body{
+    max-width: 1400px;
+    margin: 10px auto;
+    color: white;
+    background-image: linear-gradient(to right, rgb(1, 0, 48), rgb(0, 36, 7));
+    opacity: 0%;
+    word-wrap: break-word;
+}
+
+div.item-2 button {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: aliceblue;
+    color: black;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 40px 0px;
+}
+
+div.item-2 button:hover {
+    background-color: black;
+    color: aliceblue;
+    transition: 0.5s;
+}
+
+img.plane {
+    width: 70%;
+    border-radius: 10px;
+    transform: rotate(-10deg);
+    animation-name: plane;
+    animation-duration: 2s;
+    animation-delay: 3s;
+    animation-iteration-count: 2;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1000;
+}
+
+img.emoji {
+    width: 80%;
+    position: relative;
+    transform: rotate(-5deg);
+    animation-name: emoji;
+    animation-duration: 2s;
+    animation-delay: 2s;
+    animation-iteration-count: 2;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1000;
+    padding: 10px 40px;
+}
+
+img.pasieka {
+    width: 90%;
+    border-radius: 10px;
+    padding: 0px 0px;
+}
+
+img.program1 {
+    width: 90%;
+    border-radius: 10px;
+}
+
+img.calculator {
+    width: 50%;
+    border-radius: 10px;
+}
+
+/* Style the Image Used to Trigger the Modal */
+#myImg {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+  
+#myImg:hover {
+    opacity: 0.7;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+  
+/* Modal Content (Image) */
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+  
+/* Caption of Modal Image (Image Text) - Same Width as the Image */
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+  
+/* Add Animation - Zoom in the Modal */
+.modal-content, #caption {
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+  
+@keyframes zoom {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+}
+  
+/* The Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+  
+.close:hover, .close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+    .modal-content {
+      width: 100%;
+    }
+}
+
+@media screen and (max-width: 820px) {
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill);
+        grid-template-rows: repeat(auto-fill);
+        grid-gap: 1rem;
+        justify-content: center;
+        padding: 10px 20px 10px 20px;
+    }
+    /* Nav bar  */
+    .item-1 {
+        grid-column-start: 1;
+        grid-column-end: 13;
+        grid-row-start: 1;
+        grid-row-end: 4;
+        width: 100%;
+        position: relative;
+        margin: 10px auto;
+        padding: 10px auto;
+    }
+
+    div.item-1 nav li {
+        float: none;
+    }
+
+    div.item-1 nav ul li a {
+        font-size: 20px;
+        margin: 20px 10px;
+        padding: 5px 10px;
+    }
+
+    /* Welcome */
+    .item-2 {
+        grid-column: 1 / 13;
+        grid-row: 4 / 9;
+        font-size: 28px;
+        box-shadow: 0px 0px 40px 1px rgba(202, 202, 202, 1);
+        padding: 10px 20px;
+    }
+    
+    /* Emoji */
+    .item-3 {
+        grid-column: 2 / 10;
+        grid-row: 10 / 13;
+    }
+    
+    /* About me */
+    .item-4 {
+        grid-column: 1 / 13;
+        grid-row: 14 / 22;
+        font-size: 26px;
+        box-shadow: 0px 0px 40px 1px rgba(202, 202, 202, 1);
+        padding: 10px 20px;
+    }
+    
+    /* Me in a plane */
+    .item-5 {
+        grid-column: 3 / 13;
+        grid-row: 23 / 27;
+        padding: 5px;
+    }
+    
+    /* Experience */
+    .item-6 {
+        grid-column: 1 / 13;
+        grid-row: 29 / 30;
+        font-size: 24px;
+        text-align: center;
+        align-self: center;
+        box-shadow: 0px 0px 40px 1px rgba(202, 202, 202, 1);
+    }
+    /* Program 1 */
+    .item-7 {
+        grid-column: 1 / 13;
+        grid-row: 31 / 36;
+        font-size: 20px;
+        text-align: center;
+        align-items: center;
+        box-shadow: 0px 0px 40px 1px rgba(202, 202, 202, 1);
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+    
+    /* Calculator */
+    .item-8 {
+        grid-column: 1 / 13;
+        grid-row: 37 / 42;
+        font-size: 24px;
+        padding: 10px 0px;
+        
+    }
+
+    /* Web page */
+    .item-9 {
+        grid-column: 1 / 13;
+        grid-row: 43 / 48;
+        font-size: 24px;
+        padding: 10px 0px;
+        
+    }
+    
+    /* Contact me */
+    .item-10 {
+        grid-column: 1 / 13;
+        grid-row: 49 / 54;
+        font-size: 26px;
+        box-shadow: 0px 0px 40px 1px rgba(202, 202, 202, 1);
+        padding: 20px 40px;
+    }
+    
+    .item-11 {
+        grid-column: 1 / 13;
+        grid-row: 55 / 56;
+        align-self: start;
+        text-align: center;
+    }
+    
+}
+
+@keyframes contact {
+    20%     {color: red;}
+    40%     {color: yellow;}
+    60%     {color: blue;}
+    80%     {color: green;}
+}
+
+@keyframes emoji {
+    from    {left: 0px;}
+    to      {left: 50px;}
+    from    {transform: rotate(-5deg);} 
+    to      {transform: rotate(5deg);}
+}
+
+@keyframes plane {
+    from {transform: rotate(-10deg);} 
+    to {transform: rotate(10deg);}
+}
