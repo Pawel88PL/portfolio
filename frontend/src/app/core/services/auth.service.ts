@@ -35,11 +35,21 @@ export class AuthService {
       this.toastr.clear(Number(toastId));
     }
 
-    if (this.jwtService.isAdmin()) {
+    if (this.isAdmin()) {
       this.router.navigate(['/admin']);
     } else {
       this.router.navigate(['/home']);
     }
+  }
+
+  isAdmin(): boolean {
+    const roles = this.jwtService.getUserRole();
+    return roles.includes('Administrator');
+  }
+
+  isLoggedIn(): boolean {
+    const token = this.jwtService.getToken();
+    return !!token && !this.jwtService.isTokenExpired();
   }
 
   login(username: string, password: string): Observable<any> {

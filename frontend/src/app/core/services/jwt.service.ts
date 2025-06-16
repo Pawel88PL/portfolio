@@ -72,16 +72,6 @@ export class JwtService {
     return date;
   }
 
-  isAdmin(): boolean {
-    const roles = this.getUserRole();
-    return roles.includes('Administrator');
-  }
-
-  isLoggedIn(): boolean {
-    const token = this.getToken();
-    return !!token && !this.isTokenExpired();
-  }
-
   isTokenExpired(): boolean {
     const date = this.getTokenExpirationDate();
     if (date === null) return false;
