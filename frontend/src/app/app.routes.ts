@@ -3,21 +3,23 @@ import { NgModule } from '@angular/core';
 
 import { adminGuard } from './core/guards/admin.guard';
 
-import { AdminComponent } from './admin/admin.component';
+import { AdminLayoutComponent } from './admin/admin-layout/admin-layout.component';
 import { LandingComponent } from './landing/landing.component';
 import { LoginComponent } from './shared/components/login/login.component';
+import { ProjectListComponent } from './admin/components/project-list/project-list.component';
 
 export const routes: Routes = [
     {
         path: 'admin',
-        component: AdminComponent,
+        component: AdminLayoutComponent,
         canActivate: [adminGuard],
         children: [
-            { path: '', redirectTo: 'login', pathMatch: 'full' }
+            { path: 'projects', component: ProjectListComponent, data: { title: 'Projects' } },
+            { path: '', redirectTo: 'projects', pathMatch: 'full' }
         ]
     },
     { path: '', redirectTo: 'landing', pathMatch: 'full' },
-    { path: 'login', component: LoginComponent, data: { title: 'Sign in' } },
+    { path: 'admin/login', component: LoginComponent, data: { title: 'Sign in' } },
     { path: 'landing', component: LandingComponent, data: { title: 'Pawel Staniul - portfolio' } },
     { path: '**', redirectTo: 'login' }
 ];
