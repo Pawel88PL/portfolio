@@ -1,5 +1,5 @@
 .custom-container {
-    margin-top: 15vh;
+    margin-top: 10vh;
 }
 
 h2,
@@ -39,10 +39,6 @@ h5 {
     border-top-color: white;
     animation: spin 0.8s linear infinite;
     vertical-align: middle;
-}
-
-.loginForm {
-    opacity: 0;
 }
 
 .login-input {
@@ -86,12 +82,11 @@ mat-card {
     justify-content: center;
     align-items: center;
     width: 100%;
-    max-width: 350px;
+    max-width: 300px;
     margin: 0 auto;
     padding: 1rem;
     background-color: white;
     border-radius: 5px;
-    min-height: 500px;
 }
 
 mat-error {

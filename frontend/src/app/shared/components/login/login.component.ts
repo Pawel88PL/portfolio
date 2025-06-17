@@ -13,8 +13,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import gsap from 'gsap';
-
 
 @Component({
   selector: 'app-login',
@@ -58,7 +56,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    gsap.to('.loginForm', { duration: 0.5, y: -1, opacity: 1, stagger: 0.2 });
     setTimeout(() => {
       this.emailInput.nativeElement.focus();
     });
