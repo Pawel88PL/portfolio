@@ -107,7 +107,7 @@ namespace backend
             // Konfiguracja bazy danych
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("portfolio"));
+                options.UseSqlServer(configuration.GetConnectionString("portfolio_db"));
             });
         }
 
