@@ -20,12 +20,11 @@
                 <li class="nav-item">
                     <button mat-menu-item class="user-button" disabled="true" *ngIf="authService.isLoggedIn()"
                         (click)="isMenuCollapsed = true">
-                        Sign in <br>
                         {{ userName }}
                     </button>
                 </li>
                 <li class="nav-item">
-                    <button mat-menu-item routerLink="/user-public-information" class="user-button"
+                    <button mat-menu-item routerLink="/" class="user-button"
                         (click)="isMenuCollapsed = true">
                         ABOUT ME
                     </button>
