@@ -66,14 +66,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.userService.getLoggedUser().subscribe({
-      next: (user) => {
-        this.userName = user.firstName + ' ' + user.lastName;
-      },
-      error: (error) => {
-        console.error('Error fetching logged user:', error);
-      }
-    });
+    this.userName = this.jwtService.getUserName()
   }
 
   logout() {

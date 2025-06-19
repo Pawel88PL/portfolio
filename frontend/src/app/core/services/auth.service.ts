@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { JwtService } from './jwt.service';
 import { Router } from '@angular/router';
 import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
@@ -38,7 +38,7 @@ export class AuthService {
     if (this.isAdmin()) {
       this.router.navigate(['/admin']);
     } else {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']);
     }
   }
 
@@ -60,12 +60,12 @@ export class AuthService {
           this.afterSuccessLogin(token);
         } else {
           this.jwtService.clearToken();
-          this.toastr.error('Nieprawidłowy token logowania. Spróbuj ponownie.', 'Błąd logowania');
+          this.toastr.error('Invalid login credentials. Please try again.', 'Login Error');
           throw new Error('Token is missing');
         }
       }),
       catchError(error => {
-        const errorMessage = error.error?.message || 'Wystąpił błąd podczas logowania. Spróbuj ponownie.';
+        const errorMessage = error.error?.message || 'An error occurred during login. Please try again later.';
         return throwError(() => errorMessage);
       })
     );
@@ -74,7 +74,7 @@ export class AuthService {
   logout(): void {
     const token = localStorage.getItem('token');
     if (token) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']);
       localStorage.removeItem('token');
     }
   }

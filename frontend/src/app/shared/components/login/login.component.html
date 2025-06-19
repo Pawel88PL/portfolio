@@ -3,44 +3,43 @@
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <mat-card-content>
                 <h2 class="text-center">
-                    Logowanie
+                    Login
                 </h2>
 
                 <hr class="mb-5">
 
                 <mat-form-field appearance="outline" class="mb-4">
-                    <mat-label>Adres e-mail</mat-label>
-                    <input matInput type="email" formControlName="username" #emailInput class="login-input">
+                    <mat-label>Email address</mat-label>
+                    <input matInput type="email" formControlName="username" #emailInput>
                     <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
-                        Adres e-mail użytkownika jest wymagany
+                        Email address is required
                     </mat-error>
                     <mat-error *ngIf="loginForm.get('username')?.hasError('email')">
-                        Niepoprawny format adresu e-mail
+                        Invalid email format
                     </mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" class="mb-4">
-                    <mat-label>Hasło</mat-label>
+                    <mat-label>Password</mat-label>
                     <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password"
                         class="login-input">
                     <i class="icon-eye" matSuffix (mousedown)="togglePasswordVisibility(true)"
                         (mouseup)="togglePasswordVisibility(false)" (mouseleave)="togglePasswordVisibility(false)"
-                        aria-label="Pokaż/ukryj hasło">
+                        aria-label="Show/Hide Password">
                         <i class="bi" [ngClass]="hidePassword ? 'bi-eye' : 'bi-eye-slash'"></i>
                     </i>
                     <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
-                        Hasło jest wymagane
+                        Password is required
                     </mat-error>
                     <mat-error *ngIf="loginForm.controls['password'].hasError('minlength')">
-                        Hasło musi zawierać co
-                        najmniej 6 znaków
+                        Password must be at least 6 characters long
                     </mat-error>
                 </mat-form-field>
 
                 <button class="proceed mb-3" [disabled]="isInLogginProcess || isInForgotPasswordProcess" type="submit">
                     <span *ngIf="isInLogginProcess" class="loading-spinner"></span>
                     <span *ngIf="!isInLogginProcess">
-                        <h5>Zaloguj się</h5>
+                        <h5>Log in</h5>
                     </span>
                 </button>
 
@@ -48,7 +47,7 @@
                     (click)="onForgotPassword()">
                     <span *ngIf="isInForgotPasswordProcess" class="loading-spinner"></span>
                     <span *ngIf="!isInForgotPasswordProcess">
-                        <h5>Nie pamiętam hasła</h5>
+                        <h5>Forgot password</h5>
                     </span>
                 </button>
 

@@ -18,10 +18,9 @@ export const routes: Routes = [
             { path: '', redirectTo: 'projects', pathMatch: 'full' }
         ]
     },
-    { path: '', redirectTo: 'landing', pathMatch: 'full' },
-    { path: 'admin/login', component: LoginComponent, data: { title: 'Sign in' } },
-    { path: 'landing', component: LandingComponent, data: { title: 'Pawel Staniul - portfolio' } },
-    { path: '**', redirectTo: 'login' }
+    { path: 'admin-login', component: LoginComponent, data: { title: 'Sign in' } },
+    { path: '', component: LandingComponent, data: { title: 'Pawel Staniul - portfolio' } },
+    { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

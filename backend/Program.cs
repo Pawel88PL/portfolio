@@ -212,6 +212,7 @@ namespace backend
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IResetPasswordEmailRepository, ResetPasswordEmailRepository>();
+            services.AddScoped<ITokenService, TokenService>();
         }
 
         private static void ConfigureMiddleware(WebApplication app)
