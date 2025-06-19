@@ -4,6 +4,7 @@ using backend.Auth;
 using backend.Data;
 using backend.Interfaces;
 using backend.Models;
+using backend.Models.Entities;
 using backend.Services;
 using backend.Services.Email;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

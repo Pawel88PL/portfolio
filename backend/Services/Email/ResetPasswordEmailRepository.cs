@@ -1,5 +1,5 @@
 using backend.Interfaces;
-using backend.Models;
+using backend.Models.Entities;
 using backend.Services.EmailBody;
 using Microsoft.AspNetCore.Identity;
 using Serilog;

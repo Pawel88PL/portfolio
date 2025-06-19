@@ -1,5 +1,5 @@
 using backend.Interfaces;
-using backend.Models;
+using backend.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace backend.Services
