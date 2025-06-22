@@ -14,6 +14,16 @@
 
         <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto">
+                <li class="nav-item" *ngIf="!authService.isLoggedIn()">
+                    <a routerLink="/" class="nav-link" (click)="isMenuCollapsed = true">
+                        ABOUT ME
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="authService.isLoggedIn() && authService.isAdmin()">
+                    <a routerLink="/admin" class="nav-link" (click)="isMenuCollapsed = true">
+                        ADMIN PANEL
+                    </a>
+                </li>
             </ul>
 
             <ul class="navbar-nav">
@@ -24,15 +34,9 @@
                     </button>
                 </li>
                 <li class="nav-item">
-                    <button mat-menu-item routerLink="/" class="user-button"
-                        (click)="isMenuCollapsed = true">
-                        ABOUT ME
-                    </button>
-                </li>
-                <li class="nav-item">
                     <button mat-menu-item *ngIf="authService.isLoggedIn()" class="user-button"
                         (click)="isMenuCollapsed = true; authService.logout()">
-                        WYLOGUJ
+                        SIGN OUT
                     </button>
                 </li>
             </ul>
