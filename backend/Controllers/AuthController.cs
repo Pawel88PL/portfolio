@@ -1,9 +1,7 @@
-using System.Security.Claims;
 using backend.Data;
+using backend.DTOs;
 using backend.Interfaces;
-using backend.Models;
 using backend.Models.Entities;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;

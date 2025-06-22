@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.Mail;
 using backend.Interfaces;
-using backend.Models;
+using backend.DTOs;
 using Microsoft.Extensions.Options;
 using Serilog;
 
