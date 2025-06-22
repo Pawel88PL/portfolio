@@ -10,6 +10,9 @@ public class AppDbContext : IdentityDbContext<User>
     {
     }
 
+    public DbSet<Project> Projects { get; set; } = null!;
+    public DbSet<ProjectImage> ProjectImages { get; set; } = null!;
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
