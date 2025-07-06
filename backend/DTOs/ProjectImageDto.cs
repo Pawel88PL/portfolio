@@ -1,6 +1,8 @@
-namespace backend.Models.Entities;
+using backend.Models.Entities;
 
-public class ProjectImage
+namespace backend.DTOs;
+
+public class ProjectImageDto
 {
     public int Id { get; set; }
     public string ImagePath { get; set; } = string.Empty;

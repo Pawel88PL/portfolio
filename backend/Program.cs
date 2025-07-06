@@ -211,6 +211,9 @@ namespace backend
         {
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IProjectImageService, ProjectImageService>();
             services.AddScoped<IResetPasswordEmailRepository, ResetPasswordEmailRepository>();
             services.AddScoped<ITokenService, TokenService>();
         }
