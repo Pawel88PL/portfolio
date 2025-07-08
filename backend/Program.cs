@@ -90,8 +90,6 @@ namespace backend
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-            services.AddSignalR();
-
 
             ConfigureDatabase(services, configuration);
             ConfigureIdentity(services);

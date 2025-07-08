@@ -11,7 +11,7 @@ namespace backend.Services
             _env = env;
         }
 
-        public async Task<string> SaveFileAsync(IFormFile file, string targetDirectory)
+        private async Task<string> SaveFileAsync(IFormFile file, string targetDirectory)
         {
             var directory = Path.Combine(_env.WebRootPath, targetDirectory);
             Directory.CreateDirectory(directory);
