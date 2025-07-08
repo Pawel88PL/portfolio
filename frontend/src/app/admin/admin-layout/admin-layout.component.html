@@ -1,25 +1,20 @@
 <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #sidenav [mode]="isSmallScreen ? 'over' : 'side'" [opened]="sidenavOpened" class="sidenav bg-dark">
-        <mat-nav-list>
-            <mat-expansion-panel [expanded]="true">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <h5>Projects</h5>
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-
-                <a mat-list-item routerLink="projects">
-                    Projects list
-                </a>
-                <a mat-list-item routerLink="projects/add">
-                    Add project
-                </a>
-            </mat-expansion-panel>
-
-        </mat-nav-list>
+    <mat-sidenav #sidenav [mode]="isSmallScreen ? 'over' : 'side'" [opened]="sidenavOpened" class="sidenav">
+        <mat-card>
+            <mat-card-content>
+                <img src="./images/folders.png" alt="Projects list" class="icon" matTooltip="Projects list"
+                    matTooltipPosition="below" [routerLink]="['projects']">
+                <img src="./images/add-folder.png" alt="Add project" class="icon" matTooltip="Add project"
+                    matTooltipPosition="below" [routerLink]="['projects/add']">
+            </mat-card-content>
+        </mat-card>
     </mat-sidenav>
 
     <mat-sidenav-content class="content">
-        <router-outlet></router-outlet>
+        <mat-card>
+            <mat-card-content>
+                <router-outlet></router-outlet>
+            </mat-card-content>
+        </mat-card>
     </mat-sidenav-content>
 </mat-sidenav-container>

@@ -7,20 +7,16 @@ import { Subscription } from 'rxjs';
 import { AdminService } from '../../core/services/admin.service';
 
 import { MatCardModule } from '@angular/material/card';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatListModule } from '@angular/material/list';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-admin-layout',
   imports: [
     CommonModule,
     MatCardModule,
-    MatExpansionModule,
-    MatListModule,
-    MatProgressSpinnerModule,
     MatSidenavModule,
+    MatTooltipModule,
     RouterModule,
   ],
   templateUrl: './admin-layout.component.html',
