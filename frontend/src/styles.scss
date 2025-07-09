@@ -80,4 +80,78 @@ app-root {
                         container-max-width: 800px, ));
 
         @include mat.card-overrides((elevated-container-shape: 5px));
+
+        @include mat.sidenav-overrides((container-shape: 0));
+}
+
+.icon-eye {
+        font-size: 18px;
+        margin-right: 5px;
+        cursor: pointer;
+}
+
+.icon-eye:hover {
+        color: #1976d2;
+}
+
+.forget {
+        position: relative;
+        display: block;
+        width: 100%;
+        min-height: 40px;
+        margin: 0 auto;
+        padding: 10px 20px;
+        background: white;
+        color: rgb(33, 37, 41);
+        border: 1px solid rgb(33, 37, 41);
+        border-radius: 5px;
+}
+
+.loading-spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 0.8s linear infinite;
+        vertical-align: middle;
+}
+
+.proceed {
+        position: relative;
+        display: block;
+        width: 100%;
+        min-height: 40px;
+        margin: 0 auto;
+        padding: 10px 20px;
+        background-color: rgb(33, 37, 41);
+        color: white;
+        border: none;
+        border-radius: 5px;
+}
+
+.forget:disabled {
+        background: #e7e7e7;
+        border: none;
+        cursor: not-allowed;
+}
+
+.proceed:disabled {
+        background: #a0a0a0;
+        cursor: not-allowed;
+}
+
+.forget:hover:not(:disabled) {
+        background: #e7e7e7;
+}
+
+.proceed:hover:not(:disabled) {
+        background-color: #484848;
+}
+
+@keyframes spin {
+        to {
+                transform: rotate(360deg);
+        }
 }
