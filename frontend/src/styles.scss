@@ -107,6 +107,16 @@ app-root {
         border-radius: 5px;
 }
 
+.forget:disabled {
+        background: #e7e7e7;
+        border: none;
+        cursor: not-allowed;
+}
+
+.forget:hover:not(:disabled) {
+        background: #e7e7e7;
+}
+
 .loading-spinner {
         display: inline-block;
         width: 20px;
@@ -119,11 +129,11 @@ app-root {
 }
 
 .proceed {
+        display: inline-block;
         position: relative;
-        display: block;
-        width: 100%;
+        min-width: 150px;
         min-height: 40px;
-        margin: 0 auto;
+        margin: 10px;
         padding: 10px 20px;
         background-color: rgb(33, 37, 41);
         color: white;
@@ -131,23 +141,35 @@ app-root {
         border-radius: 5px;
 }
 
-.forget:disabled {
-        background: #e7e7e7;
-        border: none;
-        cursor: not-allowed;
-}
-
 .proceed:disabled {
         background: #a0a0a0;
         cursor: not-allowed;
 }
 
-.forget:hover:not(:disabled) {
-        background: #e7e7e7;
-}
-
 .proceed:hover:not(:disabled) {
         background-color: #484848;
+}
+
+.reject {
+        display: inline-block;
+        position: relative;
+        min-width: 150px;
+        min-height: 40px;
+        margin: 10px;
+        padding: 10px 20px;
+        background: #414b55;
+        color: white;
+        border: none;
+        border-radius: 5px;
+}
+
+.reject:disabled {
+        background: #a0a0a0;
+        cursor: not-allowed;
+}
+
+.reject:hover:not(:disabled) {
+        background: #636b74;
 }
 
 @keyframes spin {

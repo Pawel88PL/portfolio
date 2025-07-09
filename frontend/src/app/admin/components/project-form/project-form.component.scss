@@ -1,0 +1,41 @@
+h1,
+h5 {
+    margin: 0;
+}
+
+input {
+    font-size: 1.2rem !important;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.preview-icon {
+    cursor: pointer;
+    margin: 5px;
+    max-width: 30px;
+    max-height: 30px;
+    transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+}
+
+.preview-icon:hover {
+    opacity: 0.7;
+    transform: scale(1.15);
+}
+
+@media (max-width: 768px) {
+    .custom-container {
+        margin: 30px 0;
+    }
+
+    .proceed,
+    .reject {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .text-end {
+        text-align: start !important;
+    }
+}

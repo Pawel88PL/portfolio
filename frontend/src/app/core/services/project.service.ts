@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ProjectFormModel } from '../models/project-form-model';
+import { ProjectModel } from '../models/project-form-model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +16,20 @@ export class ProjectService {
     private http: HttpClient
   ) { }
 
-  addProject(dto: ProjectFormModel): Observable<{ projectId: number }> {
+  addProject(dto: ProjectModel): Observable<{ projectId: number }> {
     return this.http.post<{ projectId: number }>(`${this.apiUrl}/projects`, dto);
+  }
+
+  getAll(): Observable<ProjectModel[]> {
+    return this.http.get<ProjectModel[]>(`${this.apiUrl}/all`);
+  }
+  
+  getById(id: number): Observable<ProjectModel> {
+    return this.http.get<ProjectModel>(`${this.apiUrl}/${id}`);
+  }
+
+  getOnlyVisibleProjects(): Observable<ProjectModel[]> {
+    return this.http.get<ProjectModel[]>(`${this.apiUrl}/visible`);
   }
 
   uploadImages(projectId: number, files: File[]): Observable<any> {
