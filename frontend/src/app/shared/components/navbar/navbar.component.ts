@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 
 import { AdminService } from '../../../core/services/admin.service';
@@ -15,11 +15,10 @@ import { filter, Subscription } from 'rxjs';
 @Component({
   selector: 'app-navbar',
   imports: [
-    CommonModule,
     MatMenuModule,
     NgbCollapseModule,
     RouterModule
-  ],
+],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })

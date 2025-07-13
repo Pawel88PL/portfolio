@@ -1,5 +1,5 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { CommonModule } from '@angular/common';
+
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -13,12 +13,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 @Component({
   selector: 'app-admin-layout',
   imports: [
-    CommonModule,
     MatCardModule,
     MatSidenavModule,
     MatTooltipModule,
-    RouterModule,
-  ],
+    RouterModule
+],
   templateUrl: './admin-layout.component.html',
   styleUrl: './admin-layout.component.scss'
 })

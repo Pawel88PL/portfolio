@@ -1,57 +1,73 @@
 <div class="custom-container">
-    <mat-card class="loginForm">
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <mat-card-content>
-                <h2 class="text-center">
-                    Login
-                </h2>
+  <mat-card class="loginForm">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-card-content>
+        <h2 class="text-center">
+          Login
+        </h2>
 
-                <hr class="mb-5">
+        <hr class="mb-5">
 
-                <mat-form-field appearance="outline" class="mb-4">
-                    <mat-label>Email address</mat-label>
-                    <input matInput type="email" formControlName="username" #emailInput>
-                    <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
-                        Email address is required
-                    </mat-error>
-                    <mat-error *ngIf="loginForm.get('username')?.hasError('email')">
-                        Invalid email format
-                    </mat-error>
-                </mat-form-field>
+        <mat-form-field appearance="outline" class="mb-4">
+          <mat-label>Email address</mat-label>
+          <input matInput type="email" formControlName="username" #emailInput>
+          @if (loginForm.get('username')?.hasError('required')) {
+            <mat-error>
+              Email address is required
+            </mat-error>
+          }
+          @if (loginForm.get('username')?.hasError('email')) {
+            <mat-error>
+              Invalid email format
+            </mat-error>
+          }
+        </mat-form-field>
 
-                <mat-form-field appearance="outline" class="mb-4">
-                    <mat-label>Password</mat-label>
-                    <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password"
-                        class="login-input">
-                    <i class="icon-eye" matSuffix (mousedown)="togglePasswordVisibility(true)"
-                        (mouseup)="togglePasswordVisibility(false)" (mouseleave)="togglePasswordVisibility(false)"
-                        aria-label="Show/Hide Password">
-                        <i class="bi" [ngClass]="hidePassword ? 'bi-eye' : 'bi-eye-slash'"></i>
-                    </i>
-                    <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
-                        Password is required
-                    </mat-error>
-                    <mat-error *ngIf="loginForm.controls['password'].hasError('minlength')">
-                        Password must be at least 6 characters long
-                    </mat-error>
-                </mat-form-field>
+        <mat-form-field appearance="outline" class="mb-4">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password"
+            class="login-input">
+          <i class="icon-eye" matSuffix (mousedown)="togglePasswordVisibility(true)"
+            (mouseup)="togglePasswordVisibility(false)" (mouseleave)="togglePasswordVisibility(false)"
+            aria-label="Show/Hide Password">
+            <i class="bi" [ngClass]="hidePassword ? 'bi-eye' : 'bi-eye-slash'"></i>
+          </i>
+          @if (loginForm.controls['password'].hasError('required')) {
+            <mat-error>
+              Password is required
+            </mat-error>
+          }
+          @if (loginForm.controls['password'].hasError('minlength')) {
+            <mat-error>
+              Password must be at least 6 characters long
+            </mat-error>
+          }
+        </mat-form-field>
 
-                <button class="proceed mb-3" [disabled]="isInLogginProcess || isInForgotPasswordProcess" type="submit">
-                    <span *ngIf="isInLogginProcess" class="loading-spinner"></span>
-                    <span *ngIf="!isInLogginProcess">
-                        <h5>Log in</h5>
-                    </span>
-                </button>
+        <button class="proceed mb-3" [disabled]="isInLogginProcess || isInForgotPasswordProcess" type="submit">
+          @if (isInLogginProcess) {
+            <span class="loading-spinner"></span>
+          }
+          @if (!isInLogginProcess) {
+            <span>
+              <h5>Log in</h5>
+            </span>
+          }
+        </button>
 
-                <button class="forget mb-3" [disabled]="isInForgotPasswordProcess || isInLogginProcess" type="button"
-                    (click)="onForgotPassword()">
-                    <span *ngIf="isInForgotPasswordProcess" class="loading-spinner"></span>
-                    <span *ngIf="!isInForgotPasswordProcess">
-                        <h5>Forgot password</h5>
-                    </span>
-                </button>
+        <button class="forget mb-3" [disabled]="isInForgotPasswordProcess || isInLogginProcess" type="button"
+          (click)="onForgotPassword()">
+          @if (isInForgotPasswordProcess) {
+            <span class="loading-spinner"></span>
+          }
+          @if (!isInForgotPasswordProcess) {
+            <span>
+              <h5>Forgot password</h5>
+            </span>
+          }
+        </button>
 
-            </mat-card-content>
-        </form>
-    </mat-card>
+      </mat-card-content>
+    </form>
+  </mat-card>
 </div>

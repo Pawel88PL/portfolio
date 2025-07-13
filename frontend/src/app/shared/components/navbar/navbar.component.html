@@ -1,45 +1,55 @@
 <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark shadow p-0">
-    <div class="container-fluid">
+  <div class="container-fluid">
 
-        <button *ngIf="showMenuButton && authService.isLoggedIn() && authService.isAdmin()" class="menu-button"
-            type="button" (click)="onMenuButtonClick()" matTooltip="Show/Hide Admin Menu">
-            &#9776;
-        </button>
+    @if (showMenuButton && authService.isLoggedIn() && authService.isAdmin()) {
+      <button class="menu-button"
+        type="button" (click)="onMenuButtonClick()" matTooltip="Show/Hide Admin Menu">
+        &#9776;
+      </button>
+    }
 
-        <a class="navbar-brand" [routerLink]="'/'">
-            HOME PAGE
-        </a>
+    <a class="navbar-brand" [routerLink]="'/'">
+      HOME PAGE
+    </a>
 
-        <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
+    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
 
-        <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item" *ngIf="!authService.isLoggedIn()">
-                    <a routerLink="/" class="nav-link" (click)="isMenuCollapsed = true">
-                        ABOUT ME
-                    </a>
-                </li>
-                <li class="nav-item" *ngIf="authService.isLoggedIn() && authService.isAdmin()">
-                    <a routerLink="/admin" class="nav-link" (click)="isMenuCollapsed = true">
-                        ADMIN PANEL
-                    </a>
-                </li>
-            </ul>
+    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto">
+        @if (!authService.isLoggedIn()) {
+          <li class="nav-item">
+            <a routerLink="/" class="nav-link" (click)="isMenuCollapsed = true">
+              ABOUT ME
+            </a>
+          </li>
+        }
+        @if (authService.isLoggedIn() && authService.isAdmin()) {
+          <li class="nav-item">
+            <a routerLink="/admin" class="nav-link" (click)="isMenuCollapsed = true">
+              ADMIN PANEL
+            </a>
+          </li>
+        }
+      </ul>
 
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <button mat-menu-item class="user-button" disabled="true" *ngIf="authService.isLoggedIn()"
-                        (click)="isMenuCollapsed = true">
-                        {{ userName }}
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button mat-menu-item *ngIf="authService.isLoggedIn()" class="user-button"
-                        (click)="isMenuCollapsed = true; authService.logout()">
-                        SIGN OUT
-                    </button>
-                </li>
-            </ul>
-        </div>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          @if (authService.isLoggedIn()) {
+            <button mat-menu-item class="user-button" disabled="true"
+              (click)="isMenuCollapsed = true">
+              {{ userName }}
+            </button>
+          }
+        </li>
+        <li class="nav-item">
+          @if (authService.isLoggedIn()) {
+            <button mat-menu-item class="user-button"
+              (click)="isMenuCollapsed = true; authService.logout()">
+              SIGN OUT
+            </button>
+          }
+        </li>
+      </ul>
     </div>
+  </div>
 </nav>
