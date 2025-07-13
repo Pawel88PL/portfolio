@@ -83,7 +83,7 @@ export class ProjectFormComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.projectId = params['id'];
       if (this.projectId) {
-        this.headerTitle = 'Edycja programu';
+        this.headerTitle = 'Edit Project';
         this.getProjectById(this.projectId);
       } else {
         this.isLoading = false;
@@ -91,8 +91,8 @@ export class ProjectFormComponent implements OnInit {
     });
   }
 
-  confirmSaveAndRedirect(programId: number): void {
-    const message = 'Czy zapisać zmiany i przejść do podglądu programu?';
+  confirmSaveAndRedirect(projectId: number): void {
+    const message = 'You have unsaved changes. Do you want to save them before leaving?';
     const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
       width: '450px',
       height: '200px',
@@ -101,7 +101,7 @@ export class ProjectFormComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.redirectUrl = `help/programs/${programId}`;
+        this.redirectUrl = `landing/${projectId}`;
         this.onSubmit();
       } else {
         return;
@@ -110,7 +110,7 @@ export class ProjectFormComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/admin', 'programs']);
+    this.router.navigate(['/admin', 'projects']);
   }
 
   getProjectById(programId: number): void {
@@ -121,7 +121,7 @@ export class ProjectFormComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error) => {
-        this.toastr.error(error.error.message, 'Błąd pobierania danych');
+        this.toastr.error(error.error.message, 'Error');
         console.error(error);
         this.isLoading = false;
       }
@@ -146,14 +146,12 @@ export class ProjectFormComponent implements OnInit {
     }
   }
 
-  
-
-  onPreview(programId: number): void {
+  onPreview(projectId: number): void {
 
     if (this.form.dirty) {
-      this.confirmSaveAndRedirect(programId);
+      this.confirmSaveAndRedirect(projectId);
     } else {
-      this.redirectUrl = `help/programs/${programId}`;
+      this.redirectUrl = `landing/${projectId}`;
       this.router.navigate([this.redirectUrl]);
     }
   }
@@ -172,15 +170,17 @@ export class ProjectFormComponent implements OnInit {
     this.projectService.addProject(dto).subscribe({
       next: res => {
         if (this.selectedFiles.length > 0) {
-          this.projectService.uploadImages(res.projectId, this.selectedFiles).subscribe(() => {
-            this.isCreating = false;
-            // show success, navigate to list
-          });
+          this.uploadProjectImages(res.projectId);
         } else {
+          this.toastr.success('Project created successfully', 'Success');
+          this.router.navigate(['/admin', 'projects']);
           this.isCreating = false;
         }
       },
-      error: () => this.isCreating = false
+      error: () => {
+        this.toastr.error('Failed to create project', 'Error');
+        this.isCreating = false;
+      }
     });
   }
 
@@ -191,6 +191,20 @@ export class ProjectFormComponent implements OnInit {
       link: data.link || '',
       technologies: data.technologies.join(', '),
       isVisible: data.isVisible
+    });
+  }
+
+  private uploadProjectImages(projectId: number): void {
+    this.projectService.uploadImages(projectId, this.selectedFiles).subscribe({
+      next: () => {
+        this.toastr.success('Images uploaded successfully', 'Success');
+        this.router.navigate(['/admin', 'projects']);
+        this.isCreating = false;
+      },
+      error: () => {
+        this.toastr.error('Failed to upload images', 'Error');
+        this.isCreating = false;
+      }
     });
   }
 }
