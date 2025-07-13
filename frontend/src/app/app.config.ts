@@ -6,9 +6,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { ToastrModule } from 'ngx-toastr';
-import { QuillModule } from 'ngx-quill';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+
+import { provideToastr } from 'ngx-toastr';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeuix/themes/aura';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,9 +27,15 @@ export const appConfig: ApplicationConfig = {
     },
     importProvidersFrom(
       ReactiveFormsModule,
-      QuillModule.forRoot(),
-      ToastrModule.forRoot()
     ),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideToastr({
+      preventDuplicates: true,
+    }),
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    })
   ]
 };

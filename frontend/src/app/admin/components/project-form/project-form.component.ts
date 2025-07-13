@@ -2,8 +2,6 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-
 
 import { ProjectService } from '../../../core/services/project.service';
 
@@ -16,12 +14,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { TinyMceConfigService } from '../../../core/services/tiny-mce-config.service';
-import { ToastrService } from 'ngx-toastr';
-
 
 import { EditorComponent } from '@tinymce/tinymce-angular';
 import { DeleteConfirmationDialogComponent } from '../../../shared/dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { ProjectModel } from '../../../core/models/project-form-model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-project-form',
@@ -79,6 +76,10 @@ export class ProjectFormComponent implements OnInit {
     });
   }
 
+  showToastr(message: string, title: string): void {
+    this.toastr.success(message, title);
+  }
+
   captureURLparameters(): void {
     this.activatedRoute.params.subscribe(params => {
       this.projectId = params['id'];
@@ -121,7 +122,7 @@ export class ProjectFormComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error) => {
-        this.toastr.error(error.error.message, 'Error');
+        //this.toastr.error(error.error.message, 'Error');
         console.error(error);
         this.isLoading = false;
       }
@@ -172,13 +173,13 @@ export class ProjectFormComponent implements OnInit {
         if (this.selectedFiles.length > 0) {
           this.uploadProjectImages(res.projectId);
         } else {
-          this.toastr.success('Project created successfully', 'Success');
+          //this.toastr.success('Project created successfully', 'Success');
           this.router.navigate(['/admin', 'projects']);
           this.isCreating = false;
         }
       },
       error: () => {
-        this.toastr.error('Failed to create project', 'Error');
+        //this.toastr.error('Failed to create project', 'Error');
         this.isCreating = false;
       }
     });
@@ -197,7 +198,7 @@ export class ProjectFormComponent implements OnInit {
   private uploadProjectImages(projectId: number): void {
     this.projectService.uploadImages(projectId, this.selectedFiles).subscribe({
       next: () => {
-        this.toastr.success('Images uploaded successfully', 'Success');
+        //this.toastr.success('Images uploaded successfully', 'Success');
         this.router.navigate(['/admin', 'projects']);
         this.isCreating = false;
       },
