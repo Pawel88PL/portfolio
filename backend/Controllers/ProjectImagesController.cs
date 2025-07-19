@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/project-images")]
     public class ProjectImagesController(IProjectImageService projectImageService) : ControllerBase
     {
         private readonly IProjectImageService _projectImageService = projectImageService;
 
-        [HttpPost]
+        [HttpPost("{projectId}")]
         public async Task<IActionResult> UploadImages([FromRoute] int projectId, [FromForm] List<IFormFile> files)
         {
             if (files == null || files.Count == 0)

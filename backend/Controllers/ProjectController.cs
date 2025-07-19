@@ -6,7 +6,7 @@ using Serilog;
 namespace backend.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/project")]
     public class ProjectController(IProjectService projectService) : ControllerBase
     {
         private readonly IProjectService _projectService = projectService;

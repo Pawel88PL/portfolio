@@ -34,7 +34,7 @@ import { ProjectModel } from '../../../core/models/project-form-model';
     MatInputModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
-    
+
     EditorComponent,
 
     FileUploadModule,
@@ -163,11 +163,18 @@ export class ProjectFormComponent implements OnInit {
   }
 
   onPrimeFilesSelected(event: any): void {
-    this.selectedFiles = event.files;
+    const files = event.files ?? event.currentFiles ?? event.originalEvent?.target?.files;
+
+    // PrimeNG może zwrócić FileList, więc zamieniamy go na tablicę
+    this.selectedFiles = Array.from(files);
+    console.log('Selected files:', this.selectedFiles);
   }
 
   onSubmit(): void {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.toastr.warning('Please fill in all required fields', 'Error');
+      return;
+    };
 
     this.isCreating = true;
 
@@ -178,11 +185,11 @@ export class ProjectFormComponent implements OnInit {
     };
 
     this.projectService.addProject(dto).subscribe({
-      next: res => {
+      next: (response) => {
+        this.toastr.success('Project created successfully', 'Success');
         if (this.selectedFiles.length > 0) {
-          this.uploadProjectImages(res.projectId);
+          this.uploadProjectImages(response);
         } else {
-          //this.toastr.success('Project created successfully', 'Success');
           this.router.navigate(['/admin', 'projects']);
           this.isCreating = false;
         }
@@ -206,8 +213,8 @@ export class ProjectFormComponent implements OnInit {
 
   private uploadProjectImages(projectId: number): void {
     this.projectService.uploadImages(projectId, this.selectedFiles).subscribe({
-      next: () => {
-        //this.toastr.success('Images uploaded successfully', 'Success');
+      next: (response) => {
+        this.toastr.success(response.message, 'Success');
         this.router.navigate(['/admin', 'projects']);
         this.isCreating = false;
       },
