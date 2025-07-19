@@ -138,7 +138,7 @@ export class ProjectFormComponent implements OnInit {
     this.form = this.fb.group({
       title: ['', Validators.required],
       displayOrder: [0, Validators.required],
-      description: ['', Validators.required],
+      description: [''],
       link: [''],
       technologies: [''],
       isVisible: [true],

@@ -13,4 +13,5 @@ public class ProjectDto
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     public bool IsVisible { get; set; } = true;
+    public int DisplayOrder { get; set; } = 0;
 }

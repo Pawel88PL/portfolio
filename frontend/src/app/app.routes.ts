@@ -15,10 +15,10 @@ export const routes: Routes = [
         component: AdminLayoutComponent,
         canActivate: [adminGuard],
         children: [
-            { path: 'projects', component: ProjectListComponent, data: { title: 'Projects' } },
-            { path: 'projects/add', component: ProjectFormComponent, data: { title: 'Add project' } },
-            { path: 'projects/edit/:id', component: ProjectFormComponent, data: { title: 'Edit project' } },
-            { path: '', redirectTo: 'projects', pathMatch: 'full' }
+            { path: 'project/list', component: ProjectListComponent, data: { title: 'Projects' } },
+            { path: 'project/add', component: ProjectFormComponent, data: { title: 'Add project' } },
+            { path: 'project/edit/:id', component: ProjectFormComponent, data: { title: 'Edit project' } },
+            { path: '', redirectTo: 'project/list', pathMatch: 'full' }
         ]
     },
     { path: 'admin-login', component: LoginComponent, data: { title: 'Sign in' } },

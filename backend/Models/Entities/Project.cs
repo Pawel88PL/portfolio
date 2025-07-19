@@ -12,6 +12,7 @@ public class Project
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
+    public int DisplayOrder { get; set; } = 0;
     public bool IsVisible { get; set; } = true;
 
     public ICollection<ProjectImage> Images { get; set; } = new List<ProjectImage>();

@@ -20,8 +20,12 @@ export class ProjectService {
     return this.http.post<any>(`${this.apiUrl}/project`, dto);
   }
 
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
   getAll(): Observable<ProjectModel[]> {
-    return this.http.get<ProjectModel[]>(`${this.apiUrl}/all`);
+    return this.http.get<ProjectModel[]>(`${this.apiUrl}/project/all`);
   }
 
   getById(id: number): Observable<ProjectModel> {
@@ -36,5 +40,9 @@ export class ProjectService {
     const formData = new FormData();
     files.forEach(file => formData.append('files', file));
     return this.http.post(`${this.apiUrl}/project-images/${projectId}`, formData);
+  }
+
+  update(id: number, dto: ProjectModel): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, dto);
   }
 }

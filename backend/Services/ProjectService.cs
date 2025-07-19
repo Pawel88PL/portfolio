@@ -2,6 +2,7 @@ using backend.Data;
 using backend.DTOs;
 using backend.Interfaces;
 using backend.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
 {
@@ -14,7 +15,7 @@ namespace backend.Services
             _context = context;
         }
 
-        public async Task<int> AddProjectAsync(ProjectDto dto)
+        public async Task<int> AddAsync(ProjectDto dto)
         {
             var project = new Project
             {
@@ -23,13 +24,37 @@ namespace backend.Services
                 GitHubUrl = dto.GitHubUrl,
                 DemoUrl = dto.DemoUrl,
                 CreatedAt = DateTime.UtcNow,
-                IsVisible = true
+                IsVisible = true,
+                DisplayOrder = dto.DisplayOrder,
             };
 
             _context.Projects.Add(project);
             await _context.SaveChangesAsync();
 
             return project.Id;
+        }
+
+        public async Task<IEnumerable<ProjectDto>> GetAllAsync()
+        {
+            var projects = await _context.Projects
+                .AsNoTracking()
+                .OrderBy(p => p.CreatedAt)
+                .ThenBy(p => p.CreatedAt)
+                .Select(p => new ProjectDto
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Description = p.Description,
+                    GitHubUrl = p.GitHubUrl,
+                    DemoUrl = p.DemoUrl,
+                    CreatedAt = p.CreatedAt,
+                    UpdatedAt = p.UpdatedAt,
+                    IsVisible = p.IsVisible,
+                    DisplayOrder = p.DisplayOrder
+                })
+                .ToListAsync();
+
+            return projects;
         }
     }
 }

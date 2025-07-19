@@ -4,6 +4,7 @@ namespace backend.Interfaces
 {
     public interface IProjectService
     {
-        Task<int> AddProjectAsync(ProjectDto dto);
+        Task<int> AddAsync(ProjectDto dto);
+        Task<IEnumerable<ProjectDto>> GetAllAsync();
     }
 }

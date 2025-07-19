@@ -1,5 +1,6 @@
 using backend.DTOs;
 using backend.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -11,18 +12,35 @@ namespace backend.Controllers
     {
         private readonly IProjectService _projectService = projectService;
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> AddProject([FromBody] ProjectDto projectDto)
         {
             try
             {
-                var projectId = await _projectService.AddProjectAsync(projectDto);
+                var projectId = await _projectService.AddAsync(projectDto);
                 return Ok(projectId);
             }
             catch (Exception ex)
             {
                 Log.Error("An error occurred while adding the project: {Message}", ex.Message);
-                return BadRequest( new { message = "An error occurred while adding the project." });
+                return BadRequest(new { message = "An error occurred while adding the project." });
+            }
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var result = await _projectService.GetAllAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return StatusCode(500, new { message = ex.Message });
             }
         }
     }
