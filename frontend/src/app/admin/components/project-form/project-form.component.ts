@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { ProjectService } from '../../../core/services/project.service';
+import { ToastrService } from 'ngx-toastr';
 
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,12 +14,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+import { FileUploadModule } from 'primeng/fileupload';
+
 import { TinyMceConfigService } from '../../../core/services/tiny-mce-config.service';
 
 import { EditorComponent } from '@tinymce/tinymce-angular';
 import { DeleteConfirmationDialogComponent } from '../../../shared/dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { ProjectModel } from '../../../core/models/project-form-model';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-project-form',
@@ -32,10 +34,13 @@ import { ToastrService } from 'ngx-toastr';
     MatInputModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    
+    EditorComponent,
+
+    FileUploadModule,
 
     ReactiveFormsModule,
     RouterModule,
-    EditorComponent
   ],
   templateUrl: './project-form.component.html',
   styleUrl: './project-form.component.scss'
@@ -155,6 +160,10 @@ export class ProjectFormComponent implements OnInit {
       this.redirectUrl = `landing/${projectId}`;
       this.router.navigate([this.redirectUrl]);
     }
+  }
+
+  onPrimeFilesSelected(event: any): void {
+    this.selectedFiles = event.files;
   }
 
   onSubmit(): void {
