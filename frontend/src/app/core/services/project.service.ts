@@ -10,14 +10,14 @@ import { ProjectModel } from '../models/project-form-model';
 
 export class ProjectService {
 
-  private apiUrl = `${environment.apiUrl}`;
+  private apiUrl = `${environment.apiUrl}/project`;
 
   constructor(
     private http: HttpClient
   ) { }
 
   addProject(dto: ProjectModel): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/project`, dto);
+    return this.http.post<any>(`${this.apiUrl}`, dto);
   }
 
   delete(id: number): Observable<any> {
@@ -25,7 +25,7 @@ export class ProjectService {
   }
 
   getAll(): Observable<ProjectModel[]> {
-    return this.http.get<ProjectModel[]>(`${this.apiUrl}/project/all`);
+    return this.http.get<ProjectModel[]>(`${this.apiUrl}/all`);
   }
 
   getById(id: number): Observable<ProjectModel> {
@@ -34,12 +34,6 @@ export class ProjectService {
 
   getOnlyVisibleProjects(): Observable<ProjectModel[]> {
     return this.http.get<ProjectModel[]>(`${this.apiUrl}/visible`);
-  }
-
-  uploadImages(projectId: number, files: File[]): Observable<any> {
-    const formData = new FormData();
-    files.forEach(file => formData.append('files', file));
-    return this.http.post(`${this.apiUrl}/project-images/${projectId}`, formData);
   }
 
   update(id: number, dto: ProjectModel): Observable<any> {

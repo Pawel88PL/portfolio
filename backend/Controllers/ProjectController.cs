@@ -43,5 +43,44 @@ namespace backend.Controllers
                 return StatusCode(500, new { message = ex.Message });
             }
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                var result = await _projectService.GetByIdAsync(id);
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] ProjectDto projectDto)
+        {
+            try
+            {
+                var result = await _projectService.UpdateAsync(id, projectDto);
+                if (!result)
+                {
+                    return NotFound();
+                }
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
     }
 }

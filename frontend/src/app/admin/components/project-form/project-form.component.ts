@@ -21,6 +21,8 @@ import { TinyMceConfigService } from '../../../core/services/tiny-mce-config.ser
 import { EditorComponent } from '@tinymce/tinymce-angular';
 import { DeleteConfirmationDialogComponent } from '../../../shared/dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { ProjectModel } from '../../../core/models/project-form-model';
+import { ImageService } from '../../../core/services/image.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-project-form',
@@ -67,7 +69,7 @@ export class ProjectFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private configService: TinyMceConfigService,
     private fb: FormBuilder,
-    private dialog: MatDialog,
+    private imageService: ImageService,
     private projectService: ProjectService,
     private router: Router,
     private toastr: ToastrService
@@ -75,21 +77,17 @@ export class ProjectFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
+    this.captureURLparameters();
 
     this.editorInit = this.configService.getEditorInit(() => {
       this.isEditorLoading = false;
     });
   }
 
-  showToastr(message: string, title: string): void {
-    this.toastr.success(message, title);
-  }
-
-  captureURLparameters(): void {
+  private captureURLparameters(): void {
     this.activatedRoute.params.subscribe(params => {
       this.projectId = params['id'];
       if (this.projectId) {
-        this.headerTitle = 'Edit Project';
         this.getProjectById(this.projectId);
       } else {
         this.isLoading = false;
@@ -97,44 +95,27 @@ export class ProjectFormComponent implements OnInit {
     });
   }
 
-  confirmSaveAndRedirect(projectId: number): void {
-    const message = 'You have unsaved changes. Do you want to save them before leaving?';
-    const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
-      width: '450px',
-      height: '200px',
-      data: { message: message }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.redirectUrl = `landing/${projectId}`;
-        this.onSubmit();
-      } else {
-        return;
-      }
-    });
-  }
-
   goBack(): void {
-    this.router.navigate(['/admin', 'projects']);
+    this.router.navigate(['admin', 'project', 'list']);
   }
 
-  getProjectById(programId: number): void {
+  private getProjectById(programId: number): void {
     this.projectService.getById(programId).subscribe({
       next: (response) => {
         this.project = response;
         this.patchFormValues(response);
+        this.headerTitle = response.title;
         this.isLoading = false;
       },
       error: (error) => {
-        //this.toastr.error(error.error.message, 'Error');
+        this.toastr.error(error.error.message, 'Error');
         console.error(error);
         this.isLoading = false;
       }
     });
   }
 
-  initializeForm(): void {
+  private initializeForm(): void {
     this.form = this.fb.group({
       title: ['', Validators.required],
       displayOrder: [0, Validators.required],
@@ -143,23 +124,6 @@ export class ProjectFormComponent implements OnInit {
       technologies: [''],
       isVisible: [true],
     });
-  }
-
-  onFilesSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files) {
-      this.selectedFiles = Array.from(input.files);
-    }
-  }
-
-  onPreview(projectId: number): void {
-
-    if (this.form.dirty) {
-      this.confirmSaveAndRedirect(projectId);
-    } else {
-      this.redirectUrl = `landing/${projectId}`;
-      this.router.navigate([this.redirectUrl]);
-    }
   }
 
   onPrimeFilesSelected(event: any): void {
@@ -179,43 +143,76 @@ export class ProjectFormComponent implements OnInit {
     this.isCreating = true;
 
     const formData = this.form.value;
-    const dto = {
+    const payload = {
       ...formData,
+      projectId: this.projectId,
       technologies: formData.technologies.split(',').map((t: string) => t.trim())
     };
 
-    this.projectService.addProject(dto).subscribe({
+    let request: Observable<number | void>;
+
+    if (this.projectId) {
+      request = this.projectService.update(this.projectId, payload);
+    } else {
+      request = this.projectService.addProject(payload);
+    }
+
+    request.subscribe({
       next: (response) => {
-        this.toastr.success('Project created successfully', 'Success');
+        const message = this.projectId ? 'Project updated successfully' : 'Project created successfully';
+        this.toastr.success(message, 'Success');
         if (this.selectedFiles.length > 0) {
-          this.uploadProjectImages(response);
+          if (response) {
+            this.uploadProjectImages(response);
+          } else {
+            this.uploadProjectImages(this.projectId!);
+          }
         } else {
-          this.router.navigate(['/admin', 'projects']);
+          this.router.navigate(['admin', 'project', 'list']);
           this.isCreating = false;
         }
+        this.isCreating = false;
       },
-      error: () => {
-        //this.toastr.error('Failed to create project', 'Error');
+      error: (error) => {
+        this.toastr.error(error.error?.message || 'An error occurred', 'Error');
+        console.error('Error creating/updating project:', error);
         this.isCreating = false;
       }
     });
   }
 
-  patchFormValues(data: ProjectModel): void {
+  private buildPayload(): any {
+    const formData = this.form.value;
+    return {
+      ...formData,
+      projectId: this.projectId,
+      technologies: formData.technologies
+        .split(',')
+        .map((t: string) => t.trim())
+        .filter((t: string) => t.length > 0)
+    };
+  }
+
+  private navigateToProjectList(): void {
+    this.router.navigate(['admin', 'project', 'list']);
+    this.isCreating = false;
+  }
+
+  private patchFormValues(data: ProjectModel): void {
     this.form.patchValue({
       title: data.title,
       description: data.description,
       link: data.link || '',
-      technologies: data.technologies.join(', '),
+      technologies: data.technologies ? data.technologies.join(', ') : '',
       isVisible: data.isVisible
     });
   }
 
   private uploadProjectImages(projectId: number): void {
-    this.projectService.uploadImages(projectId, this.selectedFiles).subscribe({
+    this.imageService.uploadImages(projectId, this.selectedFiles).subscribe({
       next: (response) => {
         this.toastr.success(response.message, 'Success');
-        this.router.navigate(['/admin', 'projects']);
+        this.router.navigate(['admin', 'project', 'list']);
         this.isCreating = false;
       },
       error: () => {

@@ -10,7 +10,7 @@ public class ProjectDto
     public string DemoUrl { get; set; } = string.Empty;
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime? UpdatedAt { get; set; }
 
     public bool IsVisible { get; set; } = true;
     public int DisplayOrder { get; set; } = 0;

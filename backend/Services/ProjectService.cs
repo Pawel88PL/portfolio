@@ -23,7 +23,7 @@ namespace backend.Services
                 Description = dto.Description,
                 GitHubUrl = dto.GitHubUrl,
                 DemoUrl = dto.DemoUrl,
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.Now,
                 IsVisible = true,
                 DisplayOrder = dto.DisplayOrder,
             };
@@ -55,6 +55,52 @@ namespace backend.Services
                 .ToListAsync();
 
             return projects;
+        }
+
+        public async Task<ProjectDto?> GetByIdAsync(int id)
+        {
+            var project = await _context.Projects
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (project == null)
+            {
+                return null;
+            }
+
+            return new ProjectDto
+            {
+                Id = project.Id,
+                Title = project.Title,
+                Description = project.Description,
+                GitHubUrl = project.GitHubUrl,
+                DemoUrl = project.DemoUrl,
+                CreatedAt = project.CreatedAt,
+                UpdatedAt = project.UpdatedAt,
+                IsVisible = project.IsVisible,
+                DisplayOrder = project.DisplayOrder
+            };
+        }
+
+        public async Task<bool> UpdateAsync(int id, ProjectDto dto)
+        {
+            var project = await _context.Projects.FindAsync(id);
+            if (project == null)
+            {
+                return false;
+            }
+
+            project.Title = dto.Title;
+            project.Description = dto.Description;
+            project.GitHubUrl = dto.GitHubUrl;
+            project.DemoUrl = dto.DemoUrl;
+            project.DisplayOrder = dto.DisplayOrder;
+            project.UpdatedAt = DateTime.Now;
+
+            _context.Projects.Update(project);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }
