@@ -29,6 +29,26 @@ namespace backend.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProject(int id)
+        {
+            try
+            {
+                var result = await _projectService.DeleteAsync(id);
+                if (!result)
+                {
+                    return NotFound(new { message = "Project not found." });
+                }
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                Log.Error("An error occurred while deleting the project: {Message}", ex.Message);
+                return StatusCode(500, new { message = "An error occurred while deleting the project." });
+            }
+        }
+
+        [Authorize(Roles = "Administrator")]
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {

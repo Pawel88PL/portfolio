@@ -4,7 +4,6 @@
 </div>
 }
 
-@if (!isLoading) {
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="row">
     <div class="col-md-7">
@@ -62,6 +61,20 @@
     </mat-checkbox>
   </div>
 
+  <div class="row mb-4" *ngIf="projectImages.length > 0">
+    <div class="col-sm-2 mb-3" *ngFor="let image of projectImages">
+      <div class="card">
+        <img [src]="baseUrl + image.imagePath" class="card-img-top" alt="Project image">
+        <div class="card-body text-center">
+          <button type="button" class="btn btn-sm btn-outline-danger">
+            <i class="pi pi-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <div class="alert alert-light mb-4">
     <p-fileUpload mode="advanced" [multiple]="true" accept="image/*" [customUpload]="true" [maxFileSize]="5000000"
       previewWidth="200" showUploadButton="false" showCancelButton="false" (onSelect)="onPrimeFilesSelected($event)">
@@ -77,8 +90,7 @@
   </div>
   }
   @if (!isEditorLoading) {
-  <editor apiKey="d0yotb05tv58bxio0g3lj1vzza51o4if7knn24bb0j1fkztc" formControlName="description" [init]="editorInit"
-    class="mb-4">
+  <editor apiKey="{{ apiKey }}" formControlName="description" [init]="editorInit" class="mb-4">
   </editor>
   }
   <div>
@@ -129,4 +141,3 @@
   </div>
   }
 </form>
-}

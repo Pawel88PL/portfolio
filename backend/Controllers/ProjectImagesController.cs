@@ -9,6 +9,25 @@ namespace backend.Controllers
     {
         private readonly IProjectImageService _projectImageService = projectImageService;
 
+        [HttpGet("{projectId}")]
+        public async Task<IActionResult> GetImages([FromRoute] int projectId)
+        {
+            try
+            {
+                var images = await _projectImageService.GetImagesForProjectAsync(projectId);
+                if (images == null || !images.Any())
+                {
+                    return NotFound("No images found for this project.");
+                }
+                return Ok(images);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+            
+        }
+
         [HttpPost("{projectId}")]
         public async Task<IActionResult> UploadImages([FromRoute] int projectId, [FromForm] List<IFormFile> files)
         {

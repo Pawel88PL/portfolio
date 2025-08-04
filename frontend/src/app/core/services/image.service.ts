@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ProjectImageModel } from '../models/project-image-model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,11 @@ export class ImageService {
   constructor(
     private http: HttpClient
   ) { }
+  
+
+  getImages(projectId: number): Observable<ProjectImageModel[]> {
+    return this.http.get<ProjectImageModel[]>(`${this.apiUrl}/${projectId}`);
+  }
 
   uploadImages(projectId: number, files: File[]): Observable<any> {
     const formData = new FormData();

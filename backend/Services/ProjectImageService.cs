@@ -68,7 +68,6 @@ namespace backend.Services
                 {
                     Id = i.Id,
                     ImagePath = i.ImagePath,
-                    UploadedAt = i.UploadedAt
                 })
                 .ToListAsync();
         }

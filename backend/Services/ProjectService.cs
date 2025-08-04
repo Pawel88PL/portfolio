@@ -9,10 +9,12 @@ namespace backend.Services
     public class ProjectService : IProjectService
     {
         private readonly AppDbContext _context;
+        private readonly IProjectImageService _projectImageService;
 
-        public ProjectService(AppDbContext context)
+        public ProjectService(AppDbContext context, IProjectImageService projectImageService)
         {
             _context = context;
+            _projectImageService = projectImageService;
         }
 
         public async Task<int> AddAsync(ProjectDto dto)
@@ -32,6 +34,32 @@ namespace backend.Services
             await _context.SaveChangesAsync();
 
             return project.Id;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var project = await _context.Projects.FindAsync(id);
+            if (project == null)
+            {
+                return false;
+            }
+
+            var images = await _context.ProjectImages
+                .Where(pi => pi.ProjectId == id)
+                .ToListAsync();
+
+            foreach (var image in images)
+            {
+                var deleted = await _projectImageService.DeleteImageAsync(image.Id);
+                if (!deleted.Success)
+                {
+                    return false;
+                }
+            }
+
+            _context.Projects.Remove(project);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<IEnumerable<ProjectDto>> GetAllAsync()

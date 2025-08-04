@@ -23,6 +23,8 @@ import { DeleteConfirmationDialogComponent } from '../../../shared/dialogs/delet
 import { ProjectModel } from '../../../core/models/project-form-model';
 import { ImageService } from '../../../core/services/image.service';
 import { Observable } from 'rxjs';
+import { ProjectImageModel } from '../../../core/models/project-image-model';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-project-form',
@@ -50,11 +52,13 @@ import { Observable } from 'rxjs';
 
 export class ProjectFormComponent implements OnInit {
 
+  baseUrl = environment.baseUrl;
+  
   form!: FormGroup;
   selectedFiles: File[] = [];
 
   isCreating: boolean = false;
-  isLoading: boolean = false;
+  isLoading: boolean = true;
 
   headerTitle: string = 'Add New Project';
   redirectUrl: string = '';
@@ -62,6 +66,9 @@ export class ProjectFormComponent implements OnInit {
   projectId: number | null = null;
   project: ProjectModel | null = null;
 
+  projectImages: ProjectImageModel[] = [];
+
+  apiKey: string = '';
   isEditorLoading: boolean = false;
   editorInit!: Record<string, any>;
 
@@ -78,6 +85,7 @@ export class ProjectFormComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.captureURLparameters();
+    this.apiKey = this.configService.getApiKey();
 
     this.editorInit = this.configService.getEditorInit(() => {
       this.isEditorLoading = false;
@@ -89,6 +97,7 @@ export class ProjectFormComponent implements OnInit {
       this.projectId = params['id'];
       if (this.projectId) {
         this.getProjectById(this.projectId);
+        this.getProjectImages(this.projectId);
       } else {
         this.isLoading = false;
       }
@@ -99,18 +108,31 @@ export class ProjectFormComponent implements OnInit {
     this.router.navigate(['admin', 'project', 'list']);
   }
 
-  private getProjectById(programId: number): void {
-    this.projectService.getById(programId).subscribe({
+  private getProjectById(projectId: number): void {
+    this.projectService.getById(projectId).subscribe({
       next: (response) => {
         this.project = response;
         this.patchFormValues(response);
         this.headerTitle = response.title;
+
         this.isLoading = false;
       },
       error: (error) => {
         this.toastr.error(error.error.message, 'Error');
         console.error(error);
         this.isLoading = false;
+      }
+    });
+  }
+
+  private getProjectImages(projectId: number): void {
+    this.imageService.getImages(projectId).subscribe({
+      next: (response) => {
+        this.projectImages = response;
+      },
+      error: (error) => {
+        this.toastr.error(error.error.message, 'Error');
+        console.error(error);
       }
     });
   }
@@ -141,37 +163,24 @@ export class ProjectFormComponent implements OnInit {
     };
 
     this.isCreating = true;
+    const payload = this.buildPayload();
 
-    const formData = this.form.value;
-    const payload = {
-      ...formData,
-      projectId: this.projectId,
-      technologies: formData.technologies.split(',').map((t: string) => t.trim())
-    };
+    const isEdit = !!this.projectId;
+    const request$ = isEdit
+      ? this.projectService.update(this.projectId!, payload)
+      : this.projectService.addProject(payload);
 
-    let request: Observable<number | void>;
-
-    if (this.projectId) {
-      request = this.projectService.update(this.projectId, payload);
-    } else {
-      request = this.projectService.addProject(payload);
-    }
-
-    request.subscribe({
+    request$.subscribe({
       next: (response) => {
-        const message = this.projectId ? 'Project updated successfully' : 'Project created successfully';
+        const newOrExistingId = response ?? this.projectId!;
+        const message = isEdit ? 'Project updated successfully' : 'Project created successfully';
         this.toastr.success(message, 'Success');
+
         if (this.selectedFiles.length > 0) {
-          if (response) {
-            this.uploadProjectImages(response);
-          } else {
-            this.uploadProjectImages(this.projectId!);
-          }
+          this.uploadProjectImages(newOrExistingId);
         } else {
-          this.router.navigate(['admin', 'project', 'list']);
-          this.isCreating = false;
+          this.navigateToProjectList();
         }
-        this.isCreating = false;
       },
       error: (error) => {
         this.toastr.error(error.error?.message || 'An error occurred', 'Error');

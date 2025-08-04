@@ -7,6 +7,10 @@ export class TinyMceConfigService {
 
   constructor() { }
 
+  getApiKey(): string {
+    return '0ob6xrpjm8fm1ze97jq4dc3t6j5q4b039um0wefxjdy4gbo8';
+  }
+
   getEditorInit(setLoadingDone: () => void): Record<string, any> {
     return {
       selector: 'textarea',
