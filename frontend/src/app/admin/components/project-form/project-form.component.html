@@ -66,14 +66,13 @@
       <div class="card">
         <img [src]="baseUrl + image.imagePath" class="card-img-top" alt="Project image">
         <div class="card-body text-center">
-          <button type="button" class="btn btn-sm btn-outline-danger">
+          <button type="button" class="btn btn-sm btn-outline-danger" (click)="onDeleteImage(image.id)">
             <i class="pi pi-trash"></i> Delete
           </button>
         </div>
       </div>
     </div>
   </div>
-
 
   <div class="alert alert-light mb-4">
     <p-fileUpload mode="advanced" [multiple]="true" accept="image/*" [customUpload]="true" [maxFileSize]="5000000"

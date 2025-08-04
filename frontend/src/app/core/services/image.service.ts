@@ -15,7 +15,10 @@ export class ImageService {
   constructor(
     private http: HttpClient
   ) { }
-  
+
+  deleteImage(imageId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${imageId}`);
+  }
 
   getImages(projectId: number): Observable<ProjectImageModel[]> {
     return this.http.get<ProjectImageModel[]>(`${this.apiUrl}/${projectId}`);

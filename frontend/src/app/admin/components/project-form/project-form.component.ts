@@ -75,6 +75,7 @@ export class ProjectFormComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private configService: TinyMceConfigService,
+    private dialog: MatDialog,
     private fb: FormBuilder,
     private imageService: ImageService,
     private projectService: ProjectService,
@@ -89,6 +90,36 @@ export class ProjectFormComponent implements OnInit {
 
     this.editorInit = this.configService.getEditorInit(() => {
       this.isEditorLoading = false;
+    });
+  }
+
+  private deleteImage(imageId: number): void {
+    this.imageService.deleteImage(imageId).subscribe({
+      next: () => {
+        this.toastr.success('Image has been deleted', 'Success');
+        this.getProjectImages(this.projectId!);
+      },
+      error: (error) => {
+        this.toastr.error('An error occurred while deleting the image', 'Error');
+        console.error(error);
+      }
+    });
+  }
+
+  onDeleteImage(imageId: number): void {
+
+    let message = 'Are you sure you want to delete this image?';
+
+    const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
+      width: '400px',
+      height: '180px',
+      data: { message: message }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteImage(imageId);
+      }
     });
   }
 

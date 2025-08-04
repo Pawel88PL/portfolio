@@ -1,4 +1,5 @@
 using backend.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -8,6 +9,25 @@ namespace backend.Controllers
     public class ProjectImagesController(IProjectImageService projectImageService) : ControllerBase
     {
         private readonly IProjectImageService _projectImageService = projectImageService;
+
+        [Authorize(Roles = "Administrator")]
+        [HttpDelete("{imageId}")]
+        public async Task<IActionResult> DeleteImage([FromRoute] int imageId)
+        {
+            try
+            {
+                var result = await _projectImageService.DeleteImageAsync(imageId);
+                if (!result.Success)
+                {
+                    return BadRequest(result.Message);
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
         [HttpGet("{projectId}")]
         public async Task<IActionResult> GetImages([FromRoute] int projectId)
@@ -28,6 +48,7 @@ namespace backend.Controllers
             
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost("{projectId}")]
         public async Task<IActionResult> UploadImages([FromRoute] int projectId, [FromForm] List<IFormFile> files)
         {
@@ -36,14 +57,19 @@ namespace backend.Controllers
                 return BadRequest("No files were uploaded.");
             }
 
-            var result = await _projectImageService.AddImagesToProjectAsync(projectId, files);
-
-            if (!result.Success)
+            try 
             {
-                return BadRequest(result.Message);
+                var result = await _projectImageService.AddImagesToProjectAsync(projectId, files);
+                if (!result.Success)
+                {
+                    return BadRequest(result.Message);
+                }
+                return Ok(result);
             }
-
-            return Ok(result);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }
