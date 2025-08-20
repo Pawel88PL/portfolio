@@ -242,6 +242,7 @@ export class ProjectFormComponent implements OnInit {
     this.form.patchValue({
       title: data.title,
       description: data.description,
+      displayOrder: data.displayOrder || 0,
       link: data.link || '',
       technologies: data.technologies ? data.technologies.join(', ') : '',
       isVisible: data.isVisible

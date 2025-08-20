@@ -20,6 +20,10 @@ export class ProjectService {
     return this.http.post<any>(`${this.apiUrl}`, dto);
   }
 
+  changeVisibility(id: number, isVisible: boolean): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}/visibility`, { isVisible });
+  }
+
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }

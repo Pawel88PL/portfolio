@@ -107,10 +107,9 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
 
   toggleVisibility(project: ProjectModel): void {
     this.isLoading = true;
-    const updated = { ...project, isVisible: !project.isVisible };
-    this.projectService.update(project.id!, updated).subscribe({
+    this.projectService.changeVisibility(project.id!, !project.isVisible).subscribe({
       next: () => {
-        project.isVisible = updated.isVisible;
+        project.isVisible = !project.isVisible;
         this.toastr.success('Visibility updated successfully', 'Success');
         this.isLoading = false;
       },

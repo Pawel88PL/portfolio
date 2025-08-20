@@ -29,6 +29,26 @@ namespace backend.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
+        [HttpPut("{id}/visibility")]
+        public async Task<IActionResult> ChangeVisibility(int id, [FromBody] bool isVisible)
+        {
+            try
+            {
+                var result = await _projectService.ChangeVisibilityAsync(id, isVisible);
+                if (!result)
+                {
+                    return NotFound(new { message = "Project not found." });
+                }
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                Log.Error("An error occurred while changing project visibility: {Message}", ex.Message);
+                return StatusCode(500, new { message = "An error occurred while changing project visibility." });
+            }
+        }
+
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProject(int id)
         {

@@ -36,6 +36,21 @@ namespace backend.Services
             return project.Id;
         }
 
+        public async Task<bool> ChangeVisibilityAsync(int id, bool isVisible)
+        {
+            var project = await _context.Projects.FindAsync(id);
+            if (project == null)
+            {
+                return false;
+            }
+
+            project.IsVisible = isVisible;
+            _context.Projects.Update(project);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<bool> DeleteAsync(int id)
         {
             var project = await _context.Projects.FindAsync(id);
@@ -66,15 +81,11 @@ namespace backend.Services
         {
             var projects = await _context.Projects
                 .AsNoTracking()
-                .OrderBy(p => p.CreatedAt)
-                .ThenBy(p => p.CreatedAt)
+                .OrderBy(p => p.DisplayOrder)
                 .Select(p => new ProjectDto
                 {
                     Id = p.Id,
                     Title = p.Title,
-                    Description = p.Description,
-                    GitHubUrl = p.GitHubUrl,
-                    DemoUrl = p.DemoUrl,
                     CreatedAt = p.CreatedAt,
                     UpdatedAt = p.UpdatedAt,
                     IsVisible = p.IsVisible,

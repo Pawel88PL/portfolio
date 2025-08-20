@@ -5,6 +5,7 @@ namespace backend.Interfaces
     public interface IProjectService
     {
         Task<int> AddAsync(ProjectDto dto);
+        Task<bool> ChangeVisibilityAsync(int id, bool isVisible);
         Task<bool> DeleteAsync(int id);
         Task<IEnumerable<ProjectDto>> GetAllAsync();
         Task<ProjectDto?> GetByIdAsync(int id);
